@@ -20,6 +20,7 @@ jdunkerley.quandl = (function() {
         }
 
         return authKey;
+
     }
 
     function setAuthKey(newKey) {

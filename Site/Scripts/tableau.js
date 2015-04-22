@@ -12,18 +12,19 @@ jdunkerley.tableau = (function() {
 
     function isConnected() {
 
-        return tableau !== undefined;
+        return tableau !== undefined; /* jshint ignore:line */
 
     }
 
     function submit() {
 
-        if (!isConnected()) {
+        if (jdunkerley.tableau.connected()) {
 
             return;
 
         }
 
+        /* jshint ignore:start */
         tableau.connectionName = jdunkerley.tableau.dataName;
         tableau.connectionData = JSON.stringify({
             data: jdunkerley.tableau.data,
@@ -32,23 +33,26 @@ jdunkerley.tableau = (function() {
         });
         jdunkerley.utils.auditMessage('Tableau', 'Submit Called: ' + tableau.connectionData);
         tableau.submit();
+        /* jshint ignore:end */
 
     }
 
     function restoreFromConnectionData() {
 
-        jdunkerley.utils.auditMessage('Tableau', 'Restore Called: ' + tableau.connectionData );
+        /* jshint ignore:start */
+        jdunkerley.utils.auditMessage('Tableau', 'Restore Called: ' + tableau.connectionData);
         var dataObj = JSON.parse(tableau.connectionData);
         jdunkerley.tableau.connectionName = tableau.connectionName;
         jdunkerley.tableau.data = dataObj.data;
         jdunkerley.tableau.columns = dataObj.cols;
         jdunkerley.tableau.types = dataObj.types;
+        /* jshint ignore:end */
 
     }
 
     function init() {
 
-        if (!isConnected()) {
+        if (jdunkerley.tableau.connected()) {
 
             return;
 
@@ -56,43 +60,58 @@ jdunkerley.tableau = (function() {
 
         jdunkerley.utils.auditMessage('Tableau', 'Init Called.');
         restoreFromConnectionData();
-        tableau.initCallback();
+        tableau.initCallback(); /* jshint ignore:line */
+
     }
 
     function getColumnHeaders() {
 
-        jdunkerley.utils.auditMessage('Tableau', 'Headers Called: ' + JSON.stringify(jdunkerley.tableau.columns));
-        jdunkerley.utils.auditMessage('Tableau', 'Headers Called: ' + JSON.stringify(jdunkerley.tableau.types));
-        tableau.headersCallback(jdunkerley.tableau.columns, jdunkerley.tableau.types);
+        jdunkerley.utils.auditMessage('Tableau', 'Header Names: ' + JSON.stringify(jdunkerley.tableau.columns));
+        jdunkerley.utils.auditMessage('Tableau', 'Header Types: ' + JSON.stringify(jdunkerley.tableau.types));
+        tableau.headersCallback(jdunkerley.tableau.columns, jdunkerley.tableau.types); /* jshint ignore:line */
+
+    }
+
+    function dataCallback(dataArray, index) {
+
+        tableau.dataCallback(dataArray, index); /* jshint ignore:line */
 
     }
 
     function shutdown() {
 
-        if (!isConnected()) {
+        if (jdunkerley.tableau.connected()) {
 
             return;
 
         }
 
         jdunkerley.utils.auditMessage('Tableau', 'Shutdown Called.');
-        tableau.shutdownCallback();
+        tableau.shutdownCallback(); /* jshint ignore:line */
+
     }
 
     return {
-        connected: isConnected(),
-        submit: submit,
+        connected: isConnected,
         init: init,
-        shutdown: shutdown,
+        submit: submit,
         getColumnHeaders: getColumnHeaders,
+        dataCallback: dataCallback,
+        shutdown: shutdown,
         data: {},
         dataName: '',
         columns: [],
-        types: []
+        types: [],
+        fetchData: function() {
+
+            dataCallback([], -1);
+
+        }
     };
 
 })();
 
+/* jshint -W098 */
 function init() {
 
     jdunkerley.tableau.init();
@@ -110,3 +129,18 @@ function getColumnHeaders() {
     jdunkerley.tableau.getColumnHeaders();
 
 }
+
+function getTableData(lastRecordNumber) {
+
+    if (lastRecordNumber === -1) {
+
+        tableau.dataCallback([], lastRecordNumber); /* jshint ignore:line */
+        return;
+
+    }
+
+    jdunkerley.tableau.fetchData();
+
+}
+
+/* jshint +W098 */

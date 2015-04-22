@@ -124,7 +124,7 @@ jdunkerley.indexPage = (function() {
 
         $('#matchList').html(ulHtml);
 
-        if (jdunkerley.tableau && jdunkerley.tableau.connected) {
+        if (jdunkerley.tableau && jdunkerley.tableau.connected()) {
 
             jdunkerley.tableau.data = {
                 code: quandlCode,
@@ -169,11 +169,37 @@ jdunkerley.indexPage = (function() {
 
     }
 
+    function handleData(quandlCode, data) {
+
+        var cols, result, row, i, j;
+        jdunkerley.utils.logMessage('index', 'data back');
+
+        cols = jdunkerley.tableau.columns;
+
+        result = [];
+        for (i = 0; i < data.data.length; i++) {
+
+            row = {};
+            for (j = 0; j < cols.length; j++) {
+
+                row[cols[j]] = data.data[i][j];
+
+            }
+
+            result[i] = row;
+
+        }
+
+        jdunkerley.tableau.dataCallback(result, -1);
+
+    }
+
     return {
         clearMatches: clearMatches,
         metaSuccess: metaSuccess,
         metaFailed: metaFailed,
-        searchSuccess: searchSuccess
+        searchSuccess: searchSuccess,
+        handleData: handleData
     };
 
 }());
@@ -182,11 +208,11 @@ $(document).ready(function() {
 
     'use strict';
 
-    jdunkerley.utils.auditMessage("User Agent", navigator.userAgent);
+    jdunkerley.utils.auditMessage('UserAgent', navigator.userAgent);
 
-    // Link on screen message box
+    /* Link on screen message box */
     var currentLogger = jdunkerley.utils.consoleLog;
-    jdunkerley.utils.consoleLog = function (msg) {
+    jdunkerley.utils.consoleLog = function(msg) {
 
         $('#message').text(msg);
         currentLogger(msg);
@@ -196,6 +222,12 @@ $(document).ready(function() {
     jdunkerley.utils.setupPage();
 
     /* Wire Up Auth Key */
+    var currentKey = jdunkerley.quandl.getAuthKey();
+    if (currentKey) {
+
+        $('#quandlAPIKey').val(currentKey);
+
+    }
     $('#quandlAPIKey').on('input paste', function() {
 
         jdunkerley.quandl.setAuthKey($('#quandlAPIKey').val());
@@ -232,55 +264,25 @@ $(document).ready(function() {
 
     });
 
-    /* Wire Up Submit */
-    $('#submit').on('click', function(e) {
+    /* Tableau Mode */
+    if (jdunkerley.tableau) {
 
-        e.preventDefault();
-        jdunkerley.tableau.submit();
+        /* Wire Up Submit */
+        $('#submit').on('click', function(e) {
 
-    });
+            e.preventDefault();
+            jdunkerley.tableau.submit();
 
-    var currentKey = jdunkerley.quandl.getAuthKey();
-    if (currentKey) {
+        });
 
-        $('#quandlAPIKey').val(currentKey);
+        /* Wire Up Data Callback */
+        jdunkerley.tableau.dataCallback = function() {
+
+            jdunkerley.quandl.setAuthKey(jdunkerley.tableau.data.authKey);
+            jdunkerley.quandl.getData(jdunkerley.tableau.data.code, jdunkerley.indexPage.handleData);
+
+        };
 
     }
 
 });
-
-function getTableData(lastRecordNumber) {
-
-    if (lastRecordNumber) {
-        tableau.dataCallback([], lastRecordNumber);
-        return;
-    }
-
-    jdunkerley.quandl.setAuthKey(jdunkerley.tableau.data.authKey);
-    jdunkerley.quandl.getData(jdunkerley.tableau.data.code, handleData);
-
-}
-
-function handleData(quandlCode, data) {
-
-    jdunkerley.utils.logMessage('index', 'data back');
-
-    var cols = jdunkerley.tableau.columns;
-
-    var result = [];
-    for (var i = 0; i < data.data.length; i++) {
-
-        var row = {};
-        for (var j = 0; j < cols.length; j++) {
-
-            row[cols[j]] = data.data[i][j];
-
-        }
-
-        result[i] = row;
-
-    }
-
-    tableau.dataCallback(result, data.data.length);
-
-}
