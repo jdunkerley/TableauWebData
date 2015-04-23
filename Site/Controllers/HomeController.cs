@@ -10,12 +10,6 @@ namespace Site.Controllers
     {
         public ActionResult Index()
         {
-            var type = 
-                this.GetType().GetMethods()
-                    .Where(m => typeof (ActionResult).IsAssignableFrom(m.ReturnType));
-
-
-
             return View();
         }
 
