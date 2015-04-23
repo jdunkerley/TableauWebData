@@ -15,7 +15,9 @@ namespace Site.Controllers
 
         public ActionResult Quandl(string authKey = null, string searchCode = null)
         {
-            return View();
+            ViewBag.AuthKey = authKey;
+            ViewBag.SearchCode = searchCode;
+            return View("Index");
         }
 
         public ActionResult Log(string message)

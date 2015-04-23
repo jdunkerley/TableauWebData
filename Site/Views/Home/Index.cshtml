@@ -19,13 +19,13 @@
     <div class="col-md-4">
         <div class="form-group">
             <label for="quandlAPIKey">API Key</label>
-            <input type="text" class="form-control catchReturn" id="quandlAPIKey" placeholder="Enter your API key">
+            <input type="text" class="form-control catchReturn" id="quandlAPIKey" placeholder="Enter your API key" value="@ViewBag.AuthKey">
         </div>
     </div>
     <div class="col-md-8">
         <div class="form-group">
-            <label for="quandlCode">Quandl Code</label>
-            <input type="text" class="form-control catchReturn" id="quandlCode" placeholder="Quandl Code or Search">
+            <label for="quandlCode">Search Query or Quandl Code (e.g. YAHOO/L_ARM)</label>
+            <input type="text" class="form-control catchReturn" id="quandlCode" placeholder="Quandl Code or Search" value="@ViewBag.SearchCode">
         </div>
     </div>
 </div>
