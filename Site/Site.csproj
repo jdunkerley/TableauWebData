@@ -150,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\JDunkerleyTableau.pubxml" />
+    <Content Include="Views\Home\Quandl.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

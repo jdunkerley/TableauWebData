@@ -267,6 +267,8 @@ $(document).ready(function() {
     /* Tableau Mode */
     if (jdunkerley.tableau) {
 
+        jdunkerley.utils.auditMessage('Ready', 'Tableau Mode');
+
         /* Wire Up Submit */
         $('#submit').on('click', function(e) {
 

@@ -18,7 +18,7 @@ jdunkerley.tableau = (function() {
 
     function submit() {
 
-        if (jdunkerley.tableau.connected()) {
+        if (!jdunkerley.tableau.connected()) {
 
             return;
 
@@ -52,7 +52,7 @@ jdunkerley.tableau = (function() {
 
     function init() {
 
-        if (jdunkerley.tableau.connected()) {
+        if (!jdunkerley.tableau.connected()) {
 
             return;
 
@@ -65,6 +65,12 @@ jdunkerley.tableau = (function() {
     }
 
     function getColumnHeaders() {
+
+        if (!jdunkerley.tableau.connected()) {
+
+            return;
+
+        }
 
         jdunkerley.utils.auditMessage('Tableau', 'Header Names: ' + JSON.stringify(jdunkerley.tableau.columns));
         jdunkerley.utils.auditMessage('Tableau', 'Header Types: ' + JSON.stringify(jdunkerley.tableau.types));
@@ -80,7 +86,7 @@ jdunkerley.tableau = (function() {
 
     function shutdown() {
 
-        if (jdunkerley.tableau.connected()) {
+        if (!jdunkerley.tableau.connected()) {
 
             return;
 

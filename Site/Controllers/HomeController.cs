@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 
@@ -8,6 +9,17 @@ namespace Site.Controllers
     public class HomeController : Controller
     {
         public ActionResult Index()
+        {
+            var type = 
+                this.GetType().GetMethods()
+                    .Where(m => typeof (ActionResult).IsAssignableFrom(m.ReturnType));
+
+
+
+            return View();
+        }
+
+        public ActionResult Quandl(string authKey = null, string searchCode = null)
         {
             return View();
         }
