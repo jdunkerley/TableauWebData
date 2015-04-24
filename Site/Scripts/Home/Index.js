@@ -194,11 +194,32 @@ jdunkerley.indexPage = (function() {
 
     }
 
+    function startSearch() {
+
+        jdunkerley.indexPage.clearMatches();
+
+        var currentVal = $('#quandlCode').val();
+        if (currentVal.indexOf('/') === -1) {
+
+            jdunkerley.quandl.runSearch(currentVal, jdunkerley.indexPage.searchSuccess);
+
+        } else {
+
+            jdunkerley.quandl.getMetaData(
+                currentVal,
+                jdunkerley.indexPage.metaSuccess,
+                jdunkerley.indexPage.metaFailed);
+
+        }
+
+    }
+
     return {
         clearMatches: clearMatches,
         metaSuccess: metaSuccess,
         metaFailed: metaFailed,
         searchSuccess: searchSuccess,
+        startSearch: startSearch,
         handleData: handleData
     };
 
@@ -222,38 +243,24 @@ $(document).ready(function() {
     jdunkerley.utils.setupPage();
 
     /* Wire Up Auth Key */
-    var currentKey = jdunkerley.quandl.getAuthKey();
-    if (currentKey) {
+    if ($('#quandlAPIKey').val() === '') {
 
-        $('#quandlAPIKey').val(currentKey);
+        var currentKey = jdunkerley.quandl.getAuthKey();
+        if (currentKey) {
 
-    }
-    $('#quandlAPIKey').on('input paste', function() {
-
-        jdunkerley.quandl.setAuthKey($('#quandlAPIKey').val());
-
-    });
-
-    /* Wire Up Search Box */
-    $('#quandlCode').on('input paste', function() {
-
-        jdunkerley.indexPage.clearMatches();
-
-        var currentVal = $('#quandlCode').val();
-        if (currentVal.indexOf('/') === -1) {
-
-            jdunkerley.quandl.runSearch(currentVal, jdunkerley.indexPage.searchSuccess);
-
-        } else {
-
-            jdunkerley.quandl.getMetaData(
-                currentVal,
-                jdunkerley.indexPage.metaSuccess,
-                jdunkerley.indexPage.metaFailed);
+            $('#quandlAPIKey').val(currentKey);
 
         }
+        $('#quandlAPIKey').on('input paste', function() {
 
-    });
+            jdunkerley.quandl.setAuthKey($('#quandlAPIKey').val());
+
+        });
+
+    }
+
+    /* Wire Up Search Box */
+    $('#quandlCode').on('input paste', jdunkerley.indexPage.startSearch);
 
     /* Wire Up Matches */
     $('#matchList').on('click', 'a.matchLink', function(e) {
@@ -284,6 +291,12 @@ $(document).ready(function() {
             jdunkerley.quandl.getData(jdunkerley.tableau.data.code, jdunkerley.indexPage.handleData);
 
         };
+
+    }
+
+    if ($('#quandlCode').val() !== '') {
+
+        jdunkerley.indexPage.startSearch();
 
     }
 

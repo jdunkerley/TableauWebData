@@ -10,6 +10,7 @@ namespace Site.Controllers
     {
         public ActionResult Index()
         {
+            Debug.WriteLine("Index Called");
             return View();
         }
 
@@ -20,10 +21,12 @@ namespace Site.Controllers
             return View("Index");
         }
 
+#if DEBUG 
         public ActionResult Log(string message)
         {
             Debug.WriteLine(message);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
+#endif
     }
 }
