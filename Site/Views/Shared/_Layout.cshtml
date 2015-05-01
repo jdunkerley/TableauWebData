@@ -13,6 +13,11 @@
 </head>
 <body>
 
+    @{
+        string actionName = ViewContext.RequestContext.RouteData.Values["action"].ToString();
+        string controllerName = ViewContext.RequestContext.RouteData.Values["controller"].ToString();
+    }
+
 <nav class="navbar navbar-default navbar-static-top">
     <div class="container">
         <div class="navbar-header">
@@ -27,8 +32,8 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                <li></li>
+                <li class="@(controllerName == "Home" && actionName == "Index" ? "active" : "")">@Html.ActionLink("Quandl", "Index", "Home")</li>
+                <li class="@(controllerName == "Home" && actionName == "Bikes" ? "active" : "")">@Html.ActionLink("TfL Bikes", "Bikes", "Home")</li>
             </ul>
         </div>
 
