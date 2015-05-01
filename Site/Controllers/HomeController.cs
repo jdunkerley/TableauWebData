@@ -57,13 +57,13 @@ namespace Site.Controllers
                     longitude = (float)i["lon"],
                     installed = getAdditionalProperty(i, "Installed") == "true",
                     locked = getAdditionalProperty(i, "Locked") == "true",
-                    installDate = getAdditionalDate(i, "InstallDate", new DateTime(2010,1,1)),
-                    removalDate = getAdditionalDate(i, "RemovalDate", new DateTime(2099,12,31)),
+                    installDate = getAdditionalDate(i, "InstallDate", new DateTime(2010,1,1)).ToString("yyyy-MM-dd HH:mm:ss"),
+                    removalDate = getAdditionalDate(i, "RemovalDate", new DateTime(2099, 12, 31)).ToString("yyyy-MM-dd HH:mm:ss"),
                     temporary = getAdditionalProperty(i, "Temporary") == "true",
                     bikes = int.Parse(getAdditionalProperty(i, "NbBikes")),
                     spaces = int.Parse(getAdditionalProperty(i, "NbEmptyDocks")),
                     docks = int.Parse(getAdditionalProperty(i, "NbDocks")),
-                    modified = (DateTime)((JArray)i["additionalProperties"]).Cast<JObject>().First()["modified"]
+                    modified = ((DateTime)((JArray)i["additionalProperties"]).Cast<JObject>().First()["modified"]).ToString("yyyy-MM-dd HH:mm:ss")
                 }).ToArray();
                 rawDataDate = DateTime.Now;
             }
