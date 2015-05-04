@@ -46,7 +46,7 @@ jdunkerley.utils = (function() {
         console.log(msg);
         $.ajax({
 
-                url: '/Home/Log?message=' + encodeURI(msg)
+                url: '/Log?message=' + encodeURI(msg)
 
             });
 

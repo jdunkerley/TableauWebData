@@ -6,15 +6,6 @@
 }
 
 @section scripts {
-    @if (Request.Url.IsLoopback)
-    {
-        <script type="text/javascript">
-
-            jdunkerley.utils.consoleLog = jdunkerley.utils.loopBackLog;
-            jdunkerley.utils.showAuditLog = true;
-
-        </script>
-    }
     <script type="text/javascript">
 
         function getBikeData() {
@@ -93,6 +84,15 @@
         });
 
     </script>
+@if (Request.Url.IsLoopback)
+{
+    <script type="text/javascript">
+
+        jdunkerley.utils.consoleLog = jdunkerley.utils.loopBackLog;
+        jdunkerley.utils.showAuditLog = true;
+
+    </script>
+}
 }
 
 

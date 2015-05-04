@@ -108,7 +108,7 @@ jdunkerley.tableau = (function() {
         dataName: '',
         columns: [],
         types: [],
-        fetchData: function() {
+        fetchData: function(lastRecordNumber) {
 
             dataCallback([], -1);
 
@@ -138,14 +138,16 @@ function getColumnHeaders() {
 
 function getTableData(lastRecordNumber) {
 
-    if (lastRecordNumber === -1) {
+    jdunkerley.utils.auditMessage("Tableau", "GetDataCalled - " + lastRecordNumber + typeof (lastRecordNumber));
+
+    if (parseInt(lastRecordNumber) === -1) {
 
         tableau.dataCallback([], lastRecordNumber); /* jshint ignore:line */
         return;
 
     }
 
-    jdunkerley.tableau.fetchData();
+    jdunkerley.tableau.fetchData(lastRecordNumber);
 
 }
 
