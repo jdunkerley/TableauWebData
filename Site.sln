@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Site", "Site\Site.csproj", "{0994D90F-5190-4726-8ADC-E26CC2320B70}"
 EndProject
@@ -9,6 +9,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AC8EFA
 	ProjectSection(SolutionItems) = preProject
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTools", "DataTools\DataTools.csproj", "{3CAD9BBB-19DD-429A-BBD0-A0855936404B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTools.Test", "DataTools.Test\DataTools.Test.csproj", "{4574B9E2-A849-4BF2-B746-2E6FDE7BBF9F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +24,14 @@ Global
 		{0994D90F-5190-4726-8ADC-E26CC2320B70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0994D90F-5190-4726-8ADC-E26CC2320B70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0994D90F-5190-4726-8ADC-E26CC2320B70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CAD9BBB-19DD-429A-BBD0-A0855936404B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CAD9BBB-19DD-429A-BBD0-A0855936404B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CAD9BBB-19DD-429A-BBD0-A0855936404B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CAD9BBB-19DD-429A-BBD0-A0855936404B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4574B9E2-A849-4BF2-B746-2E6FDE7BBF9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4574B9E2-A849-4BF2-B746-2E6FDE7BBF9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4574B9E2-A849-4BF2-B746-2E6FDE7BBF9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4574B9E2-A849-4BF2-B746-2E6FDE7BBF9F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

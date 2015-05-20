@@ -235,6 +235,12 @@ $(document).ready(function() {
     var currentLogger = jdunkerley.utils.consoleLog;
     jdunkerley.utils.consoleLog = function(msg) {
 
+        if (jdunkerley.tableau && jdunkerley.tableau.connected) {
+
+            tableau.log(msg);
+
+        }
+
         $('#message').text(msg);
         currentLogger(msg);
 
