@@ -291,13 +291,13 @@ $(document).ready(function() {
         });
 
         /* Wire Up Data Callback */
-        jdunkerley.tableau.dataCallback = function() {
+        jdunkerley.tableau.fetchData = function (lastRecordNumber) {
 
+            jdunkerley.utils.auditMessage('fetchData', jdunkerley.tableau.data.authKey);
             jdunkerley.quandl.setAuthKey(jdunkerley.tableau.data.authKey);
             jdunkerley.quandl.getData(jdunkerley.tableau.data.code, jdunkerley.indexPage.handleData);
 
         };
-
     }
 
     if ($('#quandlCode').val() !== '') {

@@ -110,7 +110,7 @@ jdunkerley.tableau = (function() {
         types: [],
         fetchData: function(lastRecordNumber) {
 
-            dataCallback([], -1);
+            jdunkerley.tableau.dataCallback([], -1);
 
         }
     };
@@ -140,15 +140,14 @@ function getTableData(lastRecordNumber) {
 
     jdunkerley.utils.auditMessage("Tableau", "GetDataCalled - " + lastRecordNumber + typeof (lastRecordNumber));
 
-    if (parseInt(lastRecordNumber) === -1) {
+    if (lastRecordNumber != '-1') {
 
-        tableau.dataCallback([], lastRecordNumber); /* jshint ignore:line */
+        jdunkerley.tableau.fetchData(lastRecordNumber);
         return;
 
     }
 
-    jdunkerley.tableau.fetchData(lastRecordNumber);
-
+    jdunkerley.tableau.dataCallback([], lastRecordNumber);
 }
 
 /* jshint +W098 */
