@@ -14,6 +14,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTools", "DataTools\Data
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTools.Test", "DataTools.Test\DataTools.Test.csproj", "{4574B9E2-A849-4BF2-B746-2E6FDE7BBF9F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlteryxDateParser", "AlteryxDateParser\AlteryxDateParser\AlteryxDateParser.csproj", "{8ADB9CD3-7081-4C6E-91A5-A74C5B9100C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlteryxDateParser.Tests", "AlteryxDateParser\AlteryxDateParser.Tests\AlteryxDateParser.Tests.csproj", "{2E061CD2-E100-4F00-B7E1-76D2F2DBB769}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +36,14 @@ Global
 		{4574B9E2-A849-4BF2-B746-2E6FDE7BBF9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4574B9E2-A849-4BF2-B746-2E6FDE7BBF9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4574B9E2-A849-4BF2-B746-2E6FDE7BBF9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8ADB9CD3-7081-4C6E-91A5-A74C5B9100C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8ADB9CD3-7081-4C6E-91A5-A74C5B9100C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8ADB9CD3-7081-4C6E-91A5-A74C5B9100C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8ADB9CD3-7081-4C6E-91A5-A74C5B9100C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E061CD2-E100-4F00-B7E1-76D2F2DBB769}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E061CD2-E100-4F00-B7E1-76D2F2DBB769}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E061CD2-E100-4F00-B7E1-76D2F2DBB769}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E061CD2-E100-4F00-B7E1-76D2F2DBB769}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

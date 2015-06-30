@@ -22,6 +22,7 @@
     <IISExpressUseClassicPipelineMode />
     <NuGetPackageImportStamp>4875e44e</NuGetPackageImportStamp>
     <ApplicationInsightsResourceId>/subscriptions/35fcc2d0-0404-49f3-b802-16bd9fa438d1/resourcegroups/Default-ApplicationInsights-CentralUS/providers/microsoft.insights/components/Site</ApplicationInsightsResourceId>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -130,6 +131,7 @@
     <Content Include="Scripts\jdunkerley.js" />
     <Content Include="Scripts\quandl.js" />
     <Content Include="Scripts\tableau.js" />
+    <Content Include="Scripts\tableauwdc-1.1.0.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

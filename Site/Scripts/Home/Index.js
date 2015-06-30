@@ -172,9 +172,9 @@ jdunkerley.indexPage = (function() {
     function handleData(quandlCode, data) {
 
         var cols, result, row, i, j;
-        jdunkerley.utils.logMessage('index', 'data back');
 
         cols = jdunkerley.tableau.columns;
+        jdunkerley.utils.logMessage('index', 'data back ' + data.data.length + ' x ' + cols.length);
 
         result = [];
         for (i = 0; i < data.data.length; i++) {
@@ -190,6 +190,7 @@ jdunkerley.indexPage = (function() {
 
         }
 
+        jdunkerley.utils.logMessage('index', 'data ready');
         jdunkerley.tableau.dataCallback(result, -1);
 
     }
@@ -229,13 +230,11 @@ $(document).ready(function() {
 
     'use strict';
 
-    jdunkerley.utils.auditMessage('UserAgent', navigator.userAgent);
-
     /* Link on screen message box */
     var currentLogger = jdunkerley.utils.consoleLog;
     jdunkerley.utils.consoleLog = function(msg) {
 
-        if (jdunkerley.tableau && jdunkerley.tableau.connected) {
+        if (tableau) {
 
             tableau.log(msg);
 
@@ -246,7 +245,15 @@ $(document).ready(function() {
 
     };
 
+    jdunkerley.utils.auditMessage('UserAgent', navigator.userAgent);
+
     jdunkerley.utils.setupPage();
+
+    if (!jdunkerley.utils.showAuditLog) {
+
+        jdunkerley.utils.logMessage('Init', 'Page Ready: ' + (jdunkerley.tableau && jdunkerley.tableau.connected ? "Connected" : "Not Connected"));
+
+    }
 
     /* Wire Up Auth Key */
     if ($('#quandlAPIKey').val() === '') {

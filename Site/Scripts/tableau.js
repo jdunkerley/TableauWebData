@@ -4,6 +4,8 @@ jdunkerley.tableau = (function() {
 
     'use strict';
 
+    var _isConnected = false;
+
     if (jdunkerley.utils) {
 
         jdunkerley.utils.auditMessage('Tableau', 'Module Called.');
@@ -12,7 +14,7 @@ jdunkerley.tableau = (function() {
 
     function isConnected() {
 
-        return tableau !== undefined; /* jshint ignore:line */
+        return _isConnected; /* jshint ignore:line */
 
     }
 
@@ -52,12 +54,7 @@ jdunkerley.tableau = (function() {
 
     function init() {
 
-        if (!jdunkerley.tableau.connected()) {
-
-            return;
-
-        }
-
+        _isConnected = true;
         jdunkerley.utils.auditMessage('Tableau', 'Init Called.');
         restoreFromConnectionData();
         tableau.initCallback(); /* jshint ignore:line */
@@ -78,32 +75,56 @@ jdunkerley.tableau = (function() {
 
     }
 
-    function dataCallback(dataArray, index) {
+    function getTableData(lastRecordNumber) {
 
-        tableau.dataCallback(dataArray, index); /* jshint ignore:line */
+        jdunkerley.utils.auditMessage("Tableau", "GetDataCalled - " + lastRecordNumber + typeof (lastRecordNumber));
 
-    }
+        if (lastRecordNumber != '-1') {
 
-    function shutdown() {
-
-        if (!jdunkerley.tableau.connected()) {
-
+            jdunkerley.tableau.fetchData(lastRecordNumber);
             return;
 
         }
 
+        jdunkerley.tableau.dataCallback([], lastRecordNumber);
+    }
+
+    function shutdown() {
+
+        _isConnected = false;
         jdunkerley.utils.auditMessage('Tableau', 'Shutdown Called.');
         tableau.shutdownCallback(); /* jshint ignore:line */
 
     }
 
+    function dataCallback(dataArray, index) {
+
+        tableau.dataCallback(dataArray, index.toString(), index === -1); /* jshint ignore:line */
+
+    }
+
+    function createConnector() {
+
+        var connector = tableau.makeConnector();
+        connector.init = init;
+        connector.getColumnHeaders = getColumnHeaders;
+        connector.getTableData = getTableData;
+        connector.shutdown = shutdown;
+        tableau.registerConnector(connector);
+
+    }
+
+    if (tableau) {
+
+        createConnector();
+
+    }
+
+
     return {
         connected: isConnected,
-        init: init,
         submit: submit,
-        getColumnHeaders: getColumnHeaders,
         dataCallback: dataCallback,
-        shutdown: shutdown,
         data: {},
         dataName: '',
         columns: [],
@@ -116,38 +137,3 @@ jdunkerley.tableau = (function() {
     };
 
 })();
-
-/* jshint -W098 */
-function init() {
-
-    jdunkerley.tableau.init();
-
-}
-
-function shutdown() {
-
-    jdunkerley.tableau.shutdown();
-
-}
-
-function getColumnHeaders() {
-
-    jdunkerley.tableau.getColumnHeaders();
-
-}
-
-function getTableData(lastRecordNumber) {
-
-    jdunkerley.utils.auditMessage("Tableau", "GetDataCalled - " + lastRecordNumber + typeof (lastRecordNumber));
-
-    if (lastRecordNumber != '-1') {
-
-        jdunkerley.tableau.fetchData(lastRecordNumber);
-        return;
-
-    }
-
-    jdunkerley.tableau.dataCallback([], lastRecordNumber);
-}
-
-/* jshint +W098 */

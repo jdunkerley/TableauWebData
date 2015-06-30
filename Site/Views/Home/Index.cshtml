@@ -1,9 +1,9 @@
-﻿@{
+﻿@using System.ServiceModel.Activation.Configuration
+@{
     ViewBag.Title = "Tableau Connectors";
 }
 
 @section scripts {
-    <script type="text/javascript" src="~/Scripts/Home/Index.js"></script>
 @if (Request.Url.IsLoopback)
 {
     <script type="text/javascript">
@@ -13,6 +13,7 @@
 
     </script>
 }
+    <script type="text/javascript" src="~/Scripts/Home/Index.js"></script>
 }
 
 <div class="row">
@@ -37,7 +38,7 @@
 <div class="row">
     <div class="col-md-12">
         <strong>Status: </strong>
-        <span id="message"></span>
+        <span id="message">HEllop</span>
     </div>
 </div>
 <div class="row">

@@ -47,22 +47,22 @@ namespace Site.Controllers
                 //var data = await clt.DownloadStringTaskAsync(new Uri(url));
                 var data = await new StreamReader(Server.MapPath("~/Content/BikeData.txt")).ReadToEndAsync();
                 var array = (JArray)JsonConvert.DeserializeObject(data);
-                
+
                 rawData = array.Cast<JObject>().Select(i => new
                 {
                     id = int.Parse(((string)i["id"]).Substring(11)),
                     commonName = (string)i["commonName"],
-                    terminalName = int.Parse(getAdditionalProperty(i, "TerminalName")),
+                    terminalName = int.Parse(GetAdditionalProperty(i, "TerminalName")),
                     latitude =(float)i["lat"],
                     longitude = (float)i["lon"],
-                    installed = getAdditionalProperty(i, "Installed") == "true",
-                    locked = getAdditionalProperty(i, "Locked") == "true",
+                    installed = GetAdditionalProperty(i, "Installed") == "true",
+                    locked = GetAdditionalProperty(i, "Locked") == "true",
                     installDate = getAdditionalDate(i, "InstallDate", new DateTime(2010,1,1)).ToString("yyyy-MM-dd HH:mm:ss"),
                     removalDate = getAdditionalDate(i, "RemovalDate", new DateTime(2099, 12, 31)).ToString("yyyy-MM-dd HH:mm:ss"),
-                    temporary = getAdditionalProperty(i, "Temporary") == "true",
-                    bikes = int.Parse(getAdditionalProperty(i, "NbBikes")),
-                    spaces = int.Parse(getAdditionalProperty(i, "NbEmptyDocks")),
-                    docks = int.Parse(getAdditionalProperty(i, "NbDocks")),
+                    temporary = GetAdditionalProperty(i, "Temporary") == "true",
+                    bikes = int.Parse(GetAdditionalProperty(i, "NbBikes")),
+                    spaces = int.Parse(GetAdditionalProperty(i, "NbEmptyDocks")),
+                    docks = int.Parse(GetAdditionalProperty(i, "NbDocks")),
                     modified = ((DateTime)((JArray)i["additionalProperties"]).Cast<JObject>().First()["modified"]).ToString("yyyy-MM-dd HH:mm:ss")
                 }).ToArray();
                 rawDataDate = DateTime.Now;
@@ -78,12 +78,12 @@ namespace Site.Controllers
             return new DateTime(1970, 1, 1).AddMilliseconds(long.Parse(value));
         }
 
-        private static string getAdditionalProperty(JObject parent, string key)
+        private static string GetAdditionalProperty(JObject parent, string key)
         {
             return ((string)((JArray)parent["additionalProperties"]).Cast<JObject>().Where(j => (string)j["key"] == key).First()["value"]);
         }
 
-#if DEBUG 
+#if DEBUG
         public ActionResult Log(string message)
         {
             Debug.WriteLine(message);
