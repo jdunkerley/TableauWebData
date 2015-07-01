@@ -234,7 +234,7 @@ $(document).ready(function() {
     var currentLogger = jdunkerley.utils.consoleLog;
     jdunkerley.utils.consoleLog = function(msg) {
 
-        if (tableau) {
+        if (typeof (tableau) !== 'undefined') {
 
             tableau.log(msg);
 
@@ -287,7 +287,7 @@ $(document).ready(function() {
     /* Tableau Mode */
     if (jdunkerley.tableau) {
 
-        jdunkerley.utils.auditMessage('Ready', 'Tableau Mode');
+        jdunkerley.utils.auditMessage('Ready',  jdunkerley.tableau.live ? 'Connected to Tableau' : 'Simulation Mode' );
 
         /* Wire Up Submit */
         $('#submit').on('click', function(e) {

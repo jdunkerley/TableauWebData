@@ -12,7 +12,8 @@ namespace Site
                       "~/Scripts/jdunkerley.js",
                       "~/Scripts/quandl.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/tableau").Include("~/Scripts/tableau.js"));
+            bundles.Add(new ScriptBundle("~/bundles/tableau").Include(
+                "~/Scripts/tableau.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/site.css"));

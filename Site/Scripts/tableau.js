@@ -5,6 +5,7 @@ jdunkerley.tableau = (function() {
     'use strict';
 
     var _isConnected = false;
+    var _liveTableau = typeof(tableauVersionBootstrap) === 'undefined'
 
     if (jdunkerley.utils) {
 
@@ -15,6 +16,12 @@ jdunkerley.tableau = (function() {
     function isConnected() {
 
         return _isConnected; /* jshint ignore:line */
+
+    }
+
+    function isLive() {
+
+        return _liveTableau;
 
     }
 
@@ -123,6 +130,7 @@ jdunkerley.tableau = (function() {
 
     return {
         connected: isConnected,
+        live: isLive,
         submit: submit,
         dataCallback: dataCallback,
         data: {},

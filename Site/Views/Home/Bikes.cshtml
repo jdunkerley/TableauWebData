@@ -56,7 +56,7 @@
                 jdunkerley.tableau.columns = ['id', 'commonName', 'terminalName', 'latitude', 'longitude', 'installed', 'locked', 'installDate', 'removalDate', 'temporary', 'bikes', 'spaces', 'docks', 'modified'];
                 jdunkerley.tableau.types = ['int', 'string', 'int', 'float', 'float', 'bool', 'bool', 'datetime', 'datetime', 'bool', 'int', 'int', 'int', 'datetime'];
 
-                jdunkerley.utils.auditMessage('Ready', 'Tableau Mode');
+                jdunkerley.utils.auditMessage('Ready', jdunkerley.tableau.live ? 'Connected to Tableau' : 'Simulation Mode');
 
                 /* Wire Up Submit */
                 $('#submit').on('click', function(e) {
