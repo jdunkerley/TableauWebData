@@ -28,6 +28,21 @@ jdunkerley.utils = (function() {
 
     function setupPage() {
 
+        /* Link on screen message box */
+        var currentLogger = jdunkerley.utils.consoleLog;
+        jdunkerley.utils.consoleLog = function (msg) {
+
+            if (jdunkerley.tableau.connected) {
+
+                tableau.log(msg);
+
+            }
+
+            $('#message').text(msg);
+            currentLogger(msg);
+
+        };
+
         /* Disable Return Presses */
         $('.catchReturn').on('keydown', function(e) {
 
@@ -38,6 +53,21 @@ jdunkerley.utils = (function() {
             }
 
         });
+
+        $('#submit').on('click', function (e) {
+
+            e.preventDefault();
+
+            if (jdunkerley.tableau) {
+
+                jdunkerley.tableau.submit();
+
+            }
+
+        });
+
+        jdunkerley.utils.auditMessage('UserAgent', navigator.userAgent);
+        jdunkerley.utils.logMessage('Init', 'Page Ready: ' + (jdunkerley.tableau && jdunkerley.tableau.live() ? "Connected" : "Not Connected"));
 
     }
 

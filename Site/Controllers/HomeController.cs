@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Newtonsoft.Json;
@@ -44,8 +45,8 @@ namespace Site.Controllers
                     ConfigurationManager.AppSettings.Get("tflAppKey"));
 
                 var clt = new WebClient();
-                //var data = await clt.DownloadStringTaskAsync(new Uri(url));
-                var data = await new StreamReader(Server.MapPath("~/Content/BikeData.txt")).ReadToEndAsync();
+                var data = await clt.DownloadStringTaskAsync(new Uri(url));
+                //var data = await new StreamReader(Server.MapPath("~/Content/BikeData.txt")).ReadToEndAsync();
                 var array = (JArray)JsonConvert.DeserializeObject(data);
 
                 rawData = array.Cast<JObject>().Select(i => new
@@ -68,7 +69,7 @@ namespace Site.Controllers
                 rawDataDate = DateTime.Now;
             }
 
-            return Json(rawData);
+            return Json(rawData, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
         private static DateTime getAdditionalDate(JObject parent, string key, DateTime def)

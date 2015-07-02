@@ -127,6 +127,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\Home\Bikes.js" />
     <Content Include="Scripts\Home\Index.js" />
     <Content Include="Scripts\jdunkerley.js" />
     <Content Include="Scripts\quandl.js" />

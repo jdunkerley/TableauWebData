@@ -9,8 +9,7 @@ namespace Site
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/js").Include(
-                      "~/Scripts/jdunkerley.js",
-                      "~/Scripts/quandl.js"));
+                      "~/Scripts/jdunkerley.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/tableau").Include(
                 "~/Scripts/tableau.js"));

@@ -5,7 +5,7 @@ jdunkerley.tableau = (function() {
     'use strict';
 
     var _isConnected = false;
-    var _liveTableau = typeof(tableauVersionBootstrap) === 'undefined'
+    var _liveTableau = typeof(tableauVersionBootstrap) !== 'undefined';
 
     if (jdunkerley.utils) {
 
@@ -48,13 +48,34 @@ jdunkerley.tableau = (function() {
 
     function restoreFromConnectionData() {
 
+        if (!jdunkerley.tableau.connected()) {
+
+            return;
+
+        }
+
+        if (tableau.connectionData === '') {
+
+            return;
+
+        }
+
         /* jshint ignore:start */
         jdunkerley.utils.auditMessage('Tableau', 'Restore Called: ' + tableau.connectionData);
-        var dataObj = JSON.parse(tableau.connectionData);
-        jdunkerley.tableau.connectionName = tableau.connectionName;
-        jdunkerley.tableau.data = dataObj.data;
-        jdunkerley.tableau.columns = dataObj.cols;
-        jdunkerley.tableau.types = dataObj.types;
+
+        try {
+
+            var dataObj = JSON.parse(tableau.connectionData);
+            jdunkerley.tableau.connectionName = tableau.connectionName;
+            jdunkerley.tableau.data = dataObj.data;
+            jdunkerley.tableau.columns = dataObj.cols;
+            jdunkerley.tableau.types = dataObj.types;
+
+        } catch (e) {
+
+            jdunkerley.utils.logMessage('Tableau', 'Restore Failed:' + tableau.connectionData);
+
+        }
         /* jshint ignore:end */
 
     }

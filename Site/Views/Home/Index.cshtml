@@ -1,18 +1,19 @@
-﻿@using System.ServiceModel.Activation.Configuration
-@{
+﻿@{
     ViewBag.Title = "Tableau Connectors";
 }
 
 @section scripts {
-@if (Request.Url.IsLoopback)
-{
-    <script type="text/javascript">
+    @if (Request.Url.IsLoopback)
+    {
+        <script type="text/javascript">
 
-        jdunkerley.utils.consoleLog = jdunkerley.utils.loopBackLog;
-        jdunkerley.utils.showAuditLog = true;
+            jdunkerley.utils.consoleLog = jdunkerley.utils.loopBackLog;
+            jdunkerley.utils.showAuditLog = true;
 
-    </script>
-}
+        </script>
+    }
+
+    <script type="text/javascript" src="~/Scripts/quandl.js"></script>
     <script type="text/javascript" src="~/Scripts/Home/Index.js"></script>
 }
 
@@ -38,7 +39,7 @@
 <div class="row">
     <div class="col-md-12">
         <strong>Status: </strong>
-        <span id="message">HEllop</span>
+        <span id="message"></span>
     </div>
 </div>
 <div class="row">

@@ -1,101 +1,23 @@
-﻿@using System.Configuration
-@model dynamic
-
-@{
+﻿@{
     ViewBag.Title = "TfL Live Bikes";
 }
 
 @section scripts {
+    @if (Request.Url.IsLoopback)
+    {
+        <script type="text/javascript">
+
+            jdunkerley.utils.consoleLog = jdunkerley.utils.loopBackLog;
+            jdunkerley.utils.showAuditLog = true;
+
+        </script>
+    }
+
+    <script type="text/javascript" src="~/Scripts/Home/Bikes.js"></script>
     <script type="text/javascript">
-
-        function getBikeData() {
-
-            jdunkerley.utils.logMessage('getBikeData', 'Bike Data Fetching');
-            $.ajax({
-                url: '@Url.Action("GetBikesData")',
-                type: 'post'
-            }).done(function(data) {
-
-                jdunkerley.utils.logMessage('getBikeData', 'Bike Data Fetched');
-
-                if (jdunkerley.tableau) {
-
-                    jdunkerley.tableau.dataCallback(data, -1);
-
-                }
-                $('#data').text(JSON.stringify(data));
-
-            }).error(function(xhr) {
-
-                jdunkerley.utils.logMessage('getBikeData', 'Bike Data Failed: ' + JSON.stringify(xhr));
-
-            });
-
-        }
-
-        $(document).ready(function() {
-
-            'use strict';
-
-            jdunkerley.utils.auditMessage('UserAgent', navigator.userAgent);
-
-            /* Link on screen message box */
-            var currentLogger = jdunkerley.utils.consoleLog;
-            jdunkerley.utils.consoleLog = function(msg) {
-
-                $('#message').text(msg);
-                currentLogger(msg);
-
-            };
-
-            jdunkerley.utils.setupPage();
-
-            /* Tableau Mode */
-            if (jdunkerley.tableau) {
-
-                jdunkerley.tableau.columns = ['id', 'commonName', 'terminalName', 'latitude', 'longitude', 'installed', 'locked', 'installDate', 'removalDate', 'temporary', 'bikes', 'spaces', 'docks', 'modified'];
-                jdunkerley.tableau.types = ['int', 'string', 'int', 'float', 'float', 'bool', 'bool', 'datetime', 'datetime', 'bool', 'int', 'int', 'int', 'datetime'];
-
-                jdunkerley.utils.auditMessage('Ready', jdunkerley.tableau.live ? 'Connected to Tableau' : 'Simulation Mode');
-
-                /* Wire Up Submit */
-                $('#submit').on('click', function(e) {
-
-                    e.preventDefault();
-                    jdunkerley.tableau.submit();
-
-                });
-
-                /* Wire Up Data Callback */
-                jdunkerley.tableau.fetchData = getBikeData;
-
-            } else {
-
-                $('#submit').on('click', function(e) {
-
-                    e.preventDefault();
-                    getBikeData();
-
-                });
-
-
-            }
-
-        });
-
-    </script>
-
-@if (Request.Url.IsLoopback)
-{
-    <script type="text/javascript">
-
-        jdunkerley.utils.consoleLog = jdunkerley.utils.loopBackLog;
-        jdunkerley.utils.showAuditLog = true;
-
+        jdunkerley.bikesTfl.url = '@Url.Action("GetBikesData")';
     </script>
 }
-}
-
 
 <h2>TfL Bikes</h2>
 
