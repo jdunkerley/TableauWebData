@@ -7,6 +7,11 @@ jdunkerley.tableau = (function() {
     var _isConnected = false;
     var _liveTableau = typeof(tableauVersionBootstrap) !== 'undefined';
 
+    var dataName = '';
+    var data = {}
+    var cols = [];
+    var types = [];
+
     if (jdunkerley.utils) {
 
         jdunkerley.utils.auditMessage('Tableau', 'Module Called.');
@@ -25,7 +30,7 @@ jdunkerley.tableau = (function() {
 
     }
 
-    function submit() {
+    function submit(dataName, data, columns, types) {
 
         if (!jdunkerley.tableau.connected()) {
 
@@ -34,11 +39,11 @@ jdunkerley.tableau = (function() {
         }
 
         /* jshint ignore:start */
-        tableau.connectionName = jdunkerley.tableau.dataName;
+        tableau.connectionName = dataName || 'data';
         tableau.connectionData = JSON.stringify({
-            data: jdunkerley.tableau.data,
-            cols: jdunkerley.tableau.columns,
-            types: jdunkerley.tableau.types
+            data: data || {},
+            cols: columns || [],
+            types: types || []
         });
         jdunkerley.utils.auditMessage('Tableau', 'Submit Called: ' + tableau.connectionData);
         tableau.submit();
@@ -65,11 +70,12 @@ jdunkerley.tableau = (function() {
 
         try {
 
+            dataName = tableau.connectionName;
+
             var dataObj = JSON.parse(tableau.connectionData);
-            jdunkerley.tableau.connectionName = tableau.connectionName;
-            jdunkerley.tableau.data = dataObj.data;
-            jdunkerley.tableau.columns = dataObj.cols;
-            jdunkerley.tableau.types = dataObj.types;
+            data = dataObj.data;
+            cols = dataObj.cols;
+            types = dataObj.types;
 
         } catch (e) {
 
@@ -97,9 +103,9 @@ jdunkerley.tableau = (function() {
 
         }
 
-        jdunkerley.utils.auditMessage('Tableau', 'Header Names: ' + JSON.stringify(jdunkerley.tableau.columns));
-        jdunkerley.utils.auditMessage('Tableau', 'Header Types: ' + JSON.stringify(jdunkerley.tableau.types));
-        tableau.headersCallback(jdunkerley.tableau.columns, jdunkerley.tableau.types); /* jshint ignore:line */
+        jdunkerley.utils.auditMessage('Tableau', 'Header Names: ' + JSON.stringify(cols));
+        jdunkerley.utils.auditMessage('Tableau', 'Header Types: ' + JSON.stringify(types));
+        tableau.headersCallback(cols, types); /* jshint ignore:line */
 
     }
 
@@ -109,7 +115,7 @@ jdunkerley.tableau = (function() {
 
         if (lastRecordNumber != '-1') {
 
-            jdunkerley.tableau.fetchData(lastRecordNumber);
+            jdunkerley.tableau.fetchData(lastRecordNumber, data, cols, types);
             return;
 
         }
@@ -148,17 +154,12 @@ jdunkerley.tableau = (function() {
 
     }
 
-
     return {
         connected: isConnected,
         live: isLive,
         submit: submit,
         dataCallback: dataCallback,
-        data: {},
-        dataName: '',
-        columns: [],
-        types: [],
-        fetchData: function(lastRecordNumber) {
+        fetchData: function(lastRecordNumber, data, cols, types) {
 
             jdunkerley.tableau.dataCallback([], -1);
 

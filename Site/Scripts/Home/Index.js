@@ -4,6 +4,10 @@ jdunkerley.indexPage = (function() {
 
     'use strict';
 
+    var currentQuandlCode;
+    var currentData;
+    var currentTypes;
+
     function clearMatches() {
 
         $('#matches').text('');
@@ -126,13 +130,9 @@ jdunkerley.indexPage = (function() {
 
         if (jdunkerley.tableau && jdunkerley.tableau.connected()) {
 
-            jdunkerley.tableau.data = {
-                code: quandlCode,
-                authKey: jdunkerley.quandl.getAuthKey()
-            };
-            jdunkerley.tableau.dataName = data.name;
-            jdunkerley.tableau.columns = data.column_names;
-            jdunkerley.tableau.types = typeList;
+            currentQuandlCode = quandlCode;
+            currentData = data;
+            currentTypes = typeList;
 
             $('#submitRow').toggleClass('hidden', false);
 
@@ -171,18 +171,17 @@ jdunkerley.indexPage = (function() {
 
     function handleData(quandlCode, data) {
 
-        var cols, result, row, i, j;
+        var result, row, i, j;
 
-        cols = jdunkerley.tableau.columns;
-        jdunkerley.utils.logMessage('index', 'data back ' + data.data.length + ' x ' + cols.length);
+        jdunkerley.utils.logMessage('index', 'data back ' + data.data.length + ' x ' + data.column_names.length);
 
         result = [];
         for (i = 0; i < data.data.length; i++) {
 
             row = {};
-            for (j = 0; j < cols.length; j++) {
+            for (j = 0; j < data.column_names.length; j++) {
 
-                row[cols[j]] = data.data[i][j];
+                row[data.column_names[j]] = data.data[i][j];
 
             }
 
@@ -192,6 +191,19 @@ jdunkerley.indexPage = (function() {
 
         jdunkerley.utils.logMessage('index', 'data ready');
         jdunkerley.tableau.dataCallback(result, -1);
+
+    }
+
+    function doSubmit() {
+
+        jdunkerley.tableau.submit(
+            currentData.name,
+            {
+                code: currentQuandlCode,
+                authKey: jdunkerley.quandl.getAuthKey()
+            },
+            currentData.column_names,
+            currentTypes);
 
     }
 
@@ -221,7 +233,8 @@ jdunkerley.indexPage = (function() {
         metaFailed: metaFailed,
         searchSuccess: searchSuccess,
         startSearch: startSearch,
-        handleData: handleData
+        handleData: handleData,
+        doSubmit: doSubmit
     };
 
 }());
@@ -232,6 +245,18 @@ $(document).ready(function() {
 
     jdunkerley.utils.setupPage();
 
+    /* Wire Up Submit */
+    $('#submit').on('click', function (e) {
+
+        e.preventDefault();
+
+        if (jdunkerley.tableau) {
+
+            jdunkerley.indexPage.doSubmit();
+
+        }
+
+    });
     /* Wire Up Auth Key */
     if ($('#quandlAPIKey').val() === '') {
 
@@ -266,11 +291,11 @@ $(document).ready(function() {
     if (jdunkerley.tableau) {
 
         /* Wire Up Data Callback */
-        jdunkerley.tableau.fetchData = function (lastRecordNumber) {
+        jdunkerley.tableau.fetchData = function (lastRecordNumber, data) {
 
-            jdunkerley.utils.auditMessage('fetchData', jdunkerley.tableau.data.authKey);
-            jdunkerley.quandl.setAuthKey(jdunkerley.tableau.data.authKey);
-            jdunkerley.quandl.getData(jdunkerley.tableau.data.code, jdunkerley.indexPage.handleData);
+            jdunkerley.utils.auditMessage('fetchData', data.authKey);
+            jdunkerley.quandl.setAuthKey(data.authKey);
+            jdunkerley.quandl.getData(data.code, jdunkerley.indexPage.handleData);
 
         };
 

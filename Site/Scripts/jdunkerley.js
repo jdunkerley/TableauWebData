@@ -54,18 +54,6 @@ jdunkerley.utils = (function() {
 
         });
 
-        $('#submit').on('click', function (e) {
-
-            e.preventDefault();
-
-            if (jdunkerley.tableau) {
-
-                jdunkerley.tableau.submit();
-
-            }
-
-        });
-
         jdunkerley.utils.auditMessage('UserAgent', navigator.userAgent);
         jdunkerley.utils.logMessage('Init', 'Page Ready: ' + (jdunkerley.tableau && jdunkerley.tableau.live() ? "Connected" : "Not Connected"));
 
