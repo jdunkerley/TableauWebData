@@ -13,9 +13,10 @@ namespace Site
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapRoute("Log", "Log", new {controller = "Home", action = "Log"});
             routes.MapRoute(
                 name: "Default",
-                url: "{action}",
+                url: "{controller}/{action}",
                 defaults: new { controller = "Home", action = "Index" }
             );
         }

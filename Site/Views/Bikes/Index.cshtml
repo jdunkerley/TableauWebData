@@ -2,18 +2,10 @@
     ViewBag.Title = "TfL Live Bikes";
 }
 
-@section scripts {
-    @if (Request.Url.IsLoopback)
-    {
-        <script type="text/javascript">
-
-            jdunkerley.utils.consoleLog = jdunkerley.utils.loopBackLog;
-            jdunkerley.utils.showAuditLog = true;
-
-        </script>
-    }
-
-    <script type="text/javascript" src="~/Scripts/Home/Bikes.js"></script>
+@section scripts
+{
+    <script type="text/javascript" src="~/Scripts/Bikes/BikesAPI.js"></script>
+    <script type="text/javascript" src="~/Scripts/Bikes/Index.js"></script>
     <script type="text/javascript">
         jdunkerley.bikesTfl.url = '@Url.Action("GetBikesData")';
     </script>
