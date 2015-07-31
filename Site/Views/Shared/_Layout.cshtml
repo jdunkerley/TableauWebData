@@ -34,7 +34,7 @@
                 <ul class="nav navbar-nav">
                     <li class="@(controllerName == "Home" ? "active" : "")">@Html.ActionLink("Quandl", "Index", "Home")</li>
                     <li class="@(controllerName == "Bikes" ? "active" : "")">@Html.ActionLink("TfL Bikes", "Index", "Bikes")</li>
-                    <li class="@(controllerName == "Moves" ? "active" : "")">@Html.ActionLink("Moves App", "Index", "Moves")</li>
+                    @*<li class="@(controllerName == "Moves" ? "active" : "")">@Html.ActionLink("Moves App", "Index", "Moves")</li>*@
                 </ul>
             </div>
 
@@ -57,7 +57,7 @@
     <script src="~/Scripts/tableauwdc-1.1.0.js"></script>
     @Scripts.Render("~/bundles/tableau")
 
-    @if (Request?.Url?.IsLoopback ?? false)
+    @if (Request != null && Request.Url != null && Request.Url.IsLoopback)
     {
         <script type="text/javascript">
 
